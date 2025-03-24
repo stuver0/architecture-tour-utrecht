@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectuur Tijdlijn Utrecht</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="logo"><a href="index.html">Architectuur Tour Utrecht</a></h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="tijdlijn.html" class="active">Tijdlijn</a>
+                <a href="tour.html">Interactieve Tour</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="timeline-container">
+            <div class="timeline-header">
+                <h1>Architectuur Tijdlijn van Utrecht</h1>
+                <p>
+                    Ontdek de architectuurgeschiedenis van Utrecht door de eeuwen heen. 
+                    Klik op een periode om meer te weten te komen over de kenmerken en gebouwen uit die tijd.
+                </p>
+            </div>
+
+            <div class="filter-container">
+                <button class="filter-btn active" data-period="alle">Alle periodes</button>
+                <button class="filter-btn" data-period="Middeleeuwen">Middeleeuwen</button>
+                <button class="filter-btn" data-period="Renaissance">Renaissance</button>
+                <button class="filter-btn" data-period="Gouden Eeuw">Gouden Eeuw</button>
+                <button class="filter-btn" data-period="Industriële Revolutie">Industriële Revolutie</button>
+                <button class="filter-btn" data-period="Interbellum">Interbellum</button>
+                <button class="filter-btn" data-period="Modern">Modern</button>
+                <button class="filter-btn" data-period="Naoorlogs">Naoorlogs</button>
+                <button class="filter-btn" data-period="Hedendaags">Hedendaags</button>
+            </div>
+
+            <div class="timeline-items">
+                <!-- De tijdlijn items worden hier ingevuld door JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Architectuur Tour Utrecht - Een interactieve tour door de architectuur van Utrecht</p>
+            <p>&copy; <span class="current-year"></span> Gemaakt door Utrecht Architectuur Liefhebbers</p>
+        </div>
+    </footer>
+
+    <script src="js/architectureData.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

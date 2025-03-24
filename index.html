@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectuur Tour Utrecht</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+
+        .fullscreen-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('images/home.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .content {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .welcome-message {
+            color: white;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .welcome-message h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .welcome-message p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #FF5722;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            animation: pulseButton 2s infinite;
+        }
+
+        .cta-button:hover {
+            background-color: #E64A19;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseButton {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="fullscreen-bg"></div>
+    
+    <header>
+        <div class="header-content">
+            <h1 class="logo"><a href="index.html">Architectuur Tour Utrecht</a></h1>
+            <nav>
+                <a href="index.html" class="active">Home</a>
+                <a href="tijdlijn.html">Tijdlijn</a>
+                <a href="tour.html">Interactieve Tour</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="content">
+        <div class="welcome-message">
+            <h1>Welkom Niek en Sanne!</h1>
+            <p>Leuk dat jullie deze architectuurtour door Utrecht gaan maken! Ontdek samen de mooiste gebouwen en architectuurstijlen van de stad.</p>
+            <p>Klaar om te beginnen? Druk op de knop hieronder en let's go!</p>
+            <a href="tour.html" class="cta-button">Start de Tour</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span class="current-year"></span> Architectuur Tour Utrecht</p>
+    </footer>
+
+    <script>
+        // Voeg jaar automatisch toe aan copyright
+        document.querySelector('.current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html> 

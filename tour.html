@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactieve Tour - Architectuur Utrecht</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome voor navigatie iconen -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Tour-specifieke styling */
+        .tour-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .location-info {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Deze class toevoegen voor alle locaties behalve Springhaver */
+        .location-info.scrollable {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .location-title {
+            color: var(--primary-color);
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .location-period {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .location-image {
+            float: right;
+            width: 200px;
+            margin: 0 0 15px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .nav-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .nav-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .nav-button.next-location {
+            margin-left: auto;
+        }
+        
+        .location-progress {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+        
+        .tour-intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .tour-intro h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        /* Voortgangsindicator */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%; /* Wordt bijgewerkt door JS */
+            transition: width 0.3s ease;
+        }
+        
+        /* Quiz styling voor in de tour */
+        .quiz-section {
+            margin-top: 20px;
+        }
+        
+        .score-board {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        
+        .player-score {
+            font-size: 1.2rem;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .player-score.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .current-player {
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .question-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option-button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        
+        .option-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .option-button.correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .option-button.wrong {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .next-question-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: block;
+            margin: 15px auto 0;
+        }
+        
+        .next-question-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        /* Responsive styles voor kleinere schermen */
+        @media (max-width: 768px) {
+            .location-image {
+                width: 100%;
+                float: none;
+                margin: 0 0 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="logo"><a href="index.html">Architectuur Tour Utrecht</a></h1>
+            <nav>
+                <a href="index.html" id="home-link">Home</a>
+                <a href="tijdlijn.html">Tijdlijn</a>
+                <a href="tour.html" class="active">Interactieve Tour</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="tour-container">
+            <div class="tour-intro">
+                <h1>Interactieve Architectuur Tour Utrecht</h1>
+                <p>Volg de kaart naar elke locatie en ontdek de rijke architectuurgeschiedenis van Utrecht.</p>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="tour-progress"></div>
+            </div>
+            
+            <div class="location-progress">
+                <span id="current-location">Locatie 1</span> van <span id="total-locations">10</span>
+            </div>
+            
+            <div id="map"></div>
+            
+            <div class="location-info scrollable" id="location-info">
+                <!-- Locatie informatie wordt hier dynamisch geladen -->
+                <div class="tour-start-info">
+                    <h2>Welkom bij de Architectuur Tour</h2>
+                    <p>Klik op "Start Tour" om te beginnen met de interactieve architectuur tour door Utrecht. Je zult langs tien iconische gebouwen in Utrecht worden geleid, elk met hun eigen unieke architectuurstijl.</p>
+                    <p>De kaart zal je naar elke locatie begeleiden. Bij aankomst kun je informatie lezen over de architectuurstijl van het gebouw.</p>
+                </div>
+            </div>
+            
+            <div class="navigation-controls">
+                <button id="prev-button" class="nav-button prev-location" disabled>
+                    <i class="fas fa-arrow-left"></i> Vorige locatie
+                </button>
+                <button id="start-button" class="nav-button start-tour">
+                    <i class="fas fa-play"></i> Start Tour
+                </button>
+                <button id="next-button" class="nav-button next-location" disabled>
+                    Volgende locatie <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Architectuur Tour Utrecht - Een interactieve tour door de architectuur van Utrecht</p>
+            <p>&copy; <span class="current-year"></span> Gemaakt door Utrecht Architectuur Liefhebbers</p>
+        </div>
+    </footer>
+
+    <!-- Script om de tour te resetten als je op Home klikt -->
+    <script>
+        document.getElementById('home-link').addEventListener('click', function(e) {
+            // Verwijder de huidige locatie uit localStorage om de tour te resetten
+            localStorage.removeItem('currentLocationIndex');
+            // Laat de default actie (naar home navigeren) doorgaan
+        });
+    </script>
+
+    <!-- Belangrijk: Zorg ervoor dat we eerst de architectuurdata laden, daarna tour.js -->
+    <script src="js/architectureData.js"></script>
+    
+    <!-- Google Maps API moet na de architectuurdata geladen worden, maar voor tour.js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0oERd0wEhdN32NxTA32r7b6SGqhquHzY&callback=initMap" async defer></script>
+    
+    <!-- Tour.js moet ná architectureData.js en Google Maps geladen worden -->
+    <script src="js/tour.js"></script>
+    
+    <!-- Main.js als laatste laden -->
+    <script src="js/main.js"></script>
+    
+    <!-- Load confetti library for the celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</body>
+</html> 
